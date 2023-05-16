@@ -19,21 +19,9 @@
       </ul>
     </nav>
 
-    <div class="blogs content">
-      <h2>All Blogs</h2>
-
-      <% if (blogs.length) { %> 
-        <% blogs.forEach(blog => { %>
-
-        <h3 class="title"><%= blog.title %></h3>
-        <p class="snippet"><%= blog.snippet %></p>
-
-        <% }); %> 
-      <% } %> 
-      <% if (!blogs.length) {%>
-        <p>No blogs to display...</p>
-      <% } %>
-
+    <div class="not-found content">
+      <h2>404</h2>
+      <p>Content not found!</p>
     </div>
   </body>
 </html>
