@@ -7,6 +7,11 @@ app.listen(port);
 
 app.set("view engine", "ejs");
 
+// A middleware is any code that runs between a request and a response
+// Middleware and static files
+
+// Serves all the files in public dir
+app.use(express.static("public"));
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
