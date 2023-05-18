@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include("./partials/head.ejs") %>
+  <%- include("../partials/head.ejs") %>
   <body>
-    <%- include("./partials/nav.ejs") %>
+    <%- include("../partials/nav.ejs") %>
 
     <div class="create-blog content">
       <form>
@@ -30,7 +30,7 @@
         <button id="cancel" data-id="<%= blog._id %>">Cancel</button>
       </form>
     </div>
-    <%- include('./partials/footer') %>
+    <%- include('../partials/footer') %>
 
     <script>
       const updateButton = document.querySelector("#update");

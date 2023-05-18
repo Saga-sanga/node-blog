@@ -52,3 +52,9 @@ app.use("/blogs", blogRoutes);
 app.use((req, res) => {
   res.status(404).render("404", { title: "404" });
 });
+
+// TODO:
+// 1. Add categories and filter for content
+// 2. Add author and date to blog
+// 3. Improve style of blog
+// 4. Add login and users
