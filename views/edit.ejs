@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+  <body>
+    <%- include("./partials/nav.ejs") %>
+
+    <div class="create-blog content">
+      <form>
+        <label for="title">Blog title:</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value="<%= blog.title %>"
+          required
+        />
+        <label for="snippet">Blog snippet:</label>
+        <input
+          type="text"
+          id="snippet"
+          name="snippet"
+          value="<%= blog.snippet%>"
+          required
+        />
+        <label for="body">Blog body:</label>
+        <textarea id="body" cols="30" rows="10" name="body" value="" required>
+<%= blog.body %></textarea
+        >
+        <button id="update" data-id="<%= blog._id %>">Update</button>
+      </form>
+    </div>
+    <%- include('./partials/footer') %>
+
+    <script>
+      const updateButton = document.querySelector("#update");
+      const form = document.querySelector("form");
+
+      const blogID = updateButton.dataset.id;
+      const query = `/blogs/${blogID}`;
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+      });
+
+      updateButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        const title = document.querySelector("#title").value;
+        const snippet = document.querySelector("#snippet").value;
+        const body = document.querySelector("textarea").value;
+
+        const blogUpdate = {
+          title,
+          snippet,
+          body,
+        };
+
+        fetch(query, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(blogUpdate),
+        })
+          .then((response) => response.json())
+          .then((data) => (location = data.redirect))
+          .catch((err) => console.log(err));
+      });
+    </script>
+  </body>
+</html>

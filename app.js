@@ -36,44 +36,7 @@ app.use(morgan("dev"));
 
 // Encode url data to request body
 app.use(express.urlencoded({ extended: true }));
-
-// mongoose and mongo sandbox routes
-app.get("/add-blog", (req, res) => {
-  const blog = new Blog({
-    title: "A new Blog",
-    snippet: "A new blog that I have created",
-    body: "A lot of text is not necressary for a blog. You can just write a few words and upload it and it will be a blog. Technically speaking. But now the problem is if the users would want to read your blog.",
-  });
-
-  blog
-    .save()
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-app.get("/all-blogs", (req, res) => {
-  Blog.find()
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-app.get("/single-blog", (req, res) => {
-  Blog.findById("6464d74cf50fa7090397fc2a")
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+app.use(express.json());
 
 // Routes
 app.get("/", (req, res) => {
@@ -96,7 +59,6 @@ app.get("/blogs", (req, res) => {
 });
 
 app.post("/blogs", (req, res) => {
-  console.log(req.body);
   const blog = new Blog(req.body);
 
   blog
@@ -120,7 +82,6 @@ app.get("/blogs/:id", (req, res) => {
 
 app.delete("/blogs/:id", (req, res) => {
   const id = req.params.id;
-  console.log(id);
 
   // Cannot redirect from server because of fetch method therefore respond with a json payload
   Blog.findByIdAndDelete(id)
@@ -130,15 +91,30 @@ app.delete("/blogs/:id", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-// Edit route need a put route too
-// app.get("/blogs/:id/edit", (req, res) => {
-//   const id = req.params.id;
-//   Blog.findById(id)
-//     .then((result) => {
-//       res.render("edit", { blog: result, title: "Edit Blog" });
-//     })
-//     .catch((err) => console.log(err));
-// })
+//Edit route need a put route too
+app.get("/blogs/:id/edit", (req, res) => {
+  const id = req.params.id;
+  Blog.findById(id)
+    .then((result) => {
+      res.render("edit", { blog: result, title: "Edit Blog" });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.put("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+
+  console.log("In PUT: ", req.body);
+
+  Blog.findByIdAndUpdate(id, req.body, {
+    runValidators: true,
+    new: true,
+  })
+    .then((result) => {
+      res.json({ redirect: `/blogs/${id}` });
+    })
+    .catch((err) => console.log(err));
+});
 
 app.get("/blogs/create", (req, res) => {
   res.render("create", { title: "New Blog" });
