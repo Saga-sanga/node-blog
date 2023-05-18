@@ -9,7 +9,7 @@ const mongoPassword = process.env.MONGO_PASSWORD;
 
 const app = express();
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Mongodb connection string
 const mongoURI = `mongodb+srv://saga_sanga:${mongoPassword}@node-blog.whqmtry.mongodb.net/Sanga-blog-tuts?retryWrites=true&w=majority`;
@@ -30,7 +30,12 @@ app.set("view engine", "ejs");
 
 // Serves all the files in public dir
 app.use(express.static("public"));
+
+// Third party middleware to log req information
 app.use(morgan("dev"));
+
+// Encode url data to request body
+app.use(express.urlencoded({ extended: true }));
 
 // mongoose and mongo sandbox routes
 app.get("/add-blog", (req, res) => {
@@ -89,6 +94,51 @@ app.get("/blogs", (req, res) => {
       console.log(err);
     });
 });
+
+app.post("/blogs", (req, res) => {
+  console.log(req.body);
+  const blog = new Blog(req.body);
+
+  blog
+    .save()
+    .then((result) => {
+      res.redirect("/blogs");
+    })
+    .catch((err) => console.log(err));
+});
+
+app.get("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+
+  Blog.findById(id)
+    .then((result) => {
+      console.log(result._id);
+      res.render("details", { blog: result, title: result.title });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.delete("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+
+  // Cannot redirect from server because of fetch method therefore respond with a json payload
+  Blog.findByIdAndDelete(id)
+    .then((result) => {
+      res.json({ redirect: "/blogs" });
+    })
+    .catch((err) => console.log(err));
+});
+
+// Edit route need a put route too
+// app.get("/blogs/:id/edit", (req, res) => {
+//   const id = req.params.id;
+//   Blog.findById(id)
+//     .then((result) => {
+//       res.render("edit", { blog: result, title: "Edit Blog" });
+//     })
+//     .catch((err) => console.log(err));
+// })
 
 app.get("/blogs/create", (req, res) => {
   res.render("create", { title: "New Blog" });
