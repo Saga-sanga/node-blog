@@ -17,6 +17,10 @@ ul {
   color: #222;
 }
 
+.title {
+  text-transform: capitalize;
+}
+
 /* nav & footer styles */
 nav {
   display: flex;
@@ -34,6 +38,9 @@ nav ul {
 nav li {
   list-style-type: none;
   margin-left: 20px;
+}
+nav li:hover a{
+  color: rgba(0, 0, 0, 0.8);
 }
 nav h1 {
   font-size: 3em;
