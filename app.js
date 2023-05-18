@@ -58,6 +58,10 @@ app.get("/blogs", (req, res) => {
     });
 });
 
+app.get("/blogs/create", (req, res) => {
+  res.render("create", { title: "New Blog" });
+});
+
 app.post("/blogs", (req, res) => {
   const blog = new Blog(req.body);
 
@@ -114,10 +118,6 @@ app.put("/blogs/:id", (req, res) => {
       res.json({ redirect: `/blogs/${id}` });
     })
     .catch((err) => console.log(err));
-});
-
-app.get("/blogs/create", (req, res) => {
-  res.render("create", { title: "New Blog" });
 });
 
 app.use((req, res) => {
