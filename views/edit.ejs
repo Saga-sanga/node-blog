@@ -27,12 +27,14 @@
 <%= blog.body %></textarea
         >
         <button id="update" data-id="<%= blog._id %>">Update</button>
+        <button id="cancel" data-id="<%= blog._id %>">Cancel</button>
       </form>
     </div>
     <%- include('./partials/footer') %>
 
     <script>
       const updateButton = document.querySelector("#update");
+      const cancelButton = document.querySelector("#cancel");
       const form = document.querySelector("form");
 
       const blogID = updateButton.dataset.id;
@@ -41,6 +43,11 @@
       form.addEventListener("submit", (e) => {
         e.preventDefault();
       });
+
+      cancelButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        location = `/blogs/${cancelButton.dataset.id}`;
+      })
 
       updateButton.addEventListener("click", (e) => {
         e.preventDefault();

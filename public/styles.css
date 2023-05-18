@@ -77,15 +77,21 @@ h3 {
   position: relative;
 }
 
-.delete {
+.options {
+  display: flex;
+  gap: 1rem;
   position: absolute;
   top: 0;
   right: 0;
+}
+
+.options a {
   border-radius: 50%;
   padding: 8px;
 }
 
-.delete:hover {
+.delete:hover,
+.edit:hover {
   cursor: pointer;
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
 }
@@ -117,4 +123,11 @@ textarea {
   border: 0;
   font-size: 1.2em;
   cursor: pointer;
+}
+
+.create-blog #cancel {
+  margin-left: 1rem;
+  color: crimson;
+  background: white;
+  border: 1px solid crimson;
 }

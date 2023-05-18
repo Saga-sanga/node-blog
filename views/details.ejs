@@ -9,8 +9,10 @@
       <div class="content">
         <p><%= blog.body %></p>
       </div>
-      <a class="edit" href="/blogs/<%= blog._id %>/edit">edit</a>
-      <a class="delete" data-doc="<%= blog._id %>">delete</a>
+      <div class="options">
+        <a class="edit" href="/blogs/<%= blog._id %>/edit">edit</a>
+        <a class="delete" data-doc="<%= blog._id %>">delete</a>
+      </div>
     </div>
 
     <%- include('./partials/footer') %>
