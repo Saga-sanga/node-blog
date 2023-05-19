@@ -57,6 +57,9 @@ app.post("/login", (req, res) => {
   console.log(req.body);
 
   // User validation
+  // TODO: Query MongoDB for user and find match, if match found change state to logged in.
+  // Maybe add encryption and crypto validation for password
+  // Can't store password as plaintext in db, it's possibe to do it though
   if (email === "saga@sanga.com" && password === "sanga") {
     const token = jsonwebtoken.sign({ email }, JWT_SECRET, { expiresIn: "1h" });
     res.status(200).json({ token });
@@ -74,6 +77,8 @@ app.post("/sign-up", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
+  // TODO: Check if email is already in use, if not add to database, change state to logged in and redirect.
+  // Create new model for users
   res.json({ email, password });
 })
 
