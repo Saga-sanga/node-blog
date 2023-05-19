@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const jsonwebtoken = require("jsonwebtoken");
+const User = require("./models/user");
 
 const blogRoutes = require("./routes/blogRoutes");
 
@@ -60,27 +61,48 @@ app.post("/login", (req, res) => {
   // TODO: Query MongoDB for user and find match, if match found change state to logged in.
   // Maybe add encryption and crypto validation for password
   // Can't store password as plaintext in db, it's possibe to do it though
-  if (email === "saga@sanga.com" && password === "sanga") {
-    const token = jsonwebtoken.sign({ email }, JWT_SECRET, { expiresIn: "1h" });
-    res.status(200).json({ token });
-  } else {
-    res.status(401).json({ message: "Invalid credentials" });
-  }
+  User.findOne({ email })
+    .then((user) => {
+      console.log(user);
+      if (email === user.email && password === user.password) {
+        // Change state to logged in
+        // Redirect to Blogs
+        const token = jsonwebtoken.sign({ email }, JWT_SECRET, {
+          expiresIn: "4h",
+        });
+        res.status(200).json({ token });
+      } else {
+        res.status(401).json({ message: "Invalid credentials" });
+      }
+    })
+    .catch((err) => console.log(err));
 });
 
 app.get("/sign-up", (req, res) => {
   res.render("signup", { title: "Sign Up" });
-})
+});
 
 app.post("/sign-up", (req, res) => {
   console.log(req.body);
-  const email = req.body.email;
-  const password = req.body.password;
 
+  const user = new User(req.body);
+
+  user
+    .save()
+    .then((result) => {
+      console.log(result);
+      res.json(req.body);
+    })
+    .catch((err) => {
+      console.log(err);
+
+      if (err.code === 11000) {
+        res.status(409).json({ message: "Email already exists" });
+      }
+    });
   // TODO: Check if email is already in use, if not add to database, change state to logged in and redirect.
   // Create new model for users
-  res.json({ email, password });
-})
+});
 
 // Blog routes
 app.use("/blogs", blogRoutes);
