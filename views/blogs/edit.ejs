@@ -26,8 +26,8 @@
         <textarea id="body" cols="30" rows="10" name="body" value="" required>
 <%= blog.body %></textarea
         >
-        <button id="update" data-id="<%= blog._id %>">Update</button>
-        <button id="cancel" data-id="<%= blog._id %>">Cancel</button>
+        <button id="update" class="button-primary" data-id="<%= blog._id %>">Update</button>
+        <button id="cancel" class="button-secondary" data-id="<%= blog._id %>">Cancel</button>
       </form>
     </div>
     <%- include('../partials/footer') %>

@@ -1,10 +1,13 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const jsonwebtoken = require("jsonwebtoken");
+
 const blogRoutes = require("./routes/blogRoutes");
 
 require("dotenv").config();
 const mongoPassword = process.env.MONGO_PASSWORD;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const app = express();
 
@@ -39,12 +42,40 @@ app.use(express.json());
 
 // Routes
 app.get("/", (req, res) => {
-  res.redirect("/blogs");
+  res.render("index", { title: "Home" });
 });
 
 app.get("/about", (req, res) => {
+  console.log(req.params, req.query);
   res.render("about", { title: "About" });
 });
+
+// Login and Sign up
+app.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  console.log(req.body);
+
+  // User validation
+  if (email === "saga@sanga.com" && password === "sanga") {
+    const token = jsonwebtoken.sign({ email }, JWT_SECRET, { expiresIn: "1h" });
+    res.status(200).json({ token });
+  } else {
+    res.status(401).json({ message: "Invalid credentials" });
+  }
+});
+
+app.get("/sign-up", (req, res) => {
+  res.render("signup", { title: "Sign Up" });
+})
+
+app.post("/sign-up", (req, res) => {
+  console.log(req.body);
+  const email = req.body.email;
+  const password = req.body.password;
+
+  res.json({ email, password });
+})
 
 // Blog routes
 app.use("/blogs", blogRoutes);
@@ -58,3 +89,4 @@ app.use((req, res) => {
 // 2. Add author and date to blog
 // 3. Improve style of blog
 // 4. Add login and users
+// 5. Manage sessions through cookies

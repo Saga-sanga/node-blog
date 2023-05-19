@@ -4,6 +4,8 @@ body {
   margin: 20px auto;
   padding: 0 20px;
   font-family: "Noto Serif", serif;
+  position: relative;
+  min-height: 95vh;
 }
 p,
 h1,
@@ -54,6 +56,12 @@ footer {
   color: #777;
   text-align: center;
   margin: 80px auto 20px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+footer span {
+  padding-right: 20px;
 }
 h2 {
   margin-bottom: 40px;
@@ -131,17 +139,23 @@ h3 {
 textarea {
   height: 120px;
 }
+
 .create-blog button {
   margin-top: 20px;
+}
+
+.button-primary {
   background: crimson;
   color: white;
   padding: 6px;
-  border: 0;
+  border: 1px;
   font-size: 1.2em;
   cursor: pointer;
 }
 
-.create-blog #cancel {
+.button-secondary {
+  padding: 6px;
+  font-size: 1.2em;
   margin-left: 1rem;
   color: crimson;
   background: white;
