@@ -19,6 +19,10 @@ ul {
   color: #222;
 }
 
+button {
+  font-family: "Noto Serif", serif;
+}
+
 .title {
   text-transform: capitalize;
 }
@@ -145,6 +149,7 @@ textarea {
 }
 
 .button-primary {
+  cursor: pointer;
   background: crimson;
   color: white;
   padding: 6px;
@@ -154,6 +159,7 @@ textarea {
 }
 
 .button-secondary {
+  cursor: pointer;
   padding: 6px;
   font-size: 1.2em;
   margin-left: 1rem;

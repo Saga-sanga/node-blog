@@ -11,8 +11,10 @@
       </div>
       <div>
         <form>
-          <label for="name">Full Name</label>
-          <input id="name" type="text" name="name" required />
+          <label for="firstname">First Name</label>
+          <input id="firstname" type="text" name="firstname" required />
+          <label for="lastname">last Name</label>
+          <input id="lastname" type="text" name="lastname" required />
           <label for="email">Email</label>
           <input id="email" type="text" name="email" required />
           <label for="password">Password</label>
@@ -37,7 +39,8 @@
 
       login.addEventListener("click", (e) => {
         e.preventDefault();
-        const name = document.querySelector("#name").value;
+        const firstname = document.querySelector("#firstname").value;
+        const lastname = document.querySelector("#lastname").value;
         const email = document.querySelector("#email").value;
         const password = document.querySelector("#password").value;
         const confirm_password =
@@ -47,10 +50,13 @@
           fetch("/sign-up", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, password }),
+            body: JSON.stringify({ firstname, lastname, email, password }),
           })
             .then((response) => response.json())
-            .then((data) => console.log(data))
+            .then((data) => {
+              console.log(data);
+              location = data.redirect;
+            })
             .catch((err) => console.log(err));
         } else {
           alert("Passwords don't match");

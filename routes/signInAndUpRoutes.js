@@ -1,5 +1,5 @@
 const express = require("express");
-const jsonwebtoken = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 require("dotenv").config();
@@ -17,8 +17,9 @@ router.post("/login", (req, res) => {
   // User validation
   User.findOne({ email })
     .then((user) => {
-      console.log(user);
+      console.log("Login", user);
       if (email === user.email) {
+        // Hash password using bcrypt
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) {
             console.log(err);
@@ -26,12 +27,28 @@ router.post("/login", (req, res) => {
           }
 
           if (result) {
-            // Change state to logged in
+            // Change state to logged in (use Sessions)
             // Redirect to Blogs
-            const token = jsonwebtoken.sign({ email }, JWT_SECRET, {
-              expiresIn: "4h",
-            });
-            res.status(200).json({ token });
+            const token = jwt.sign(
+              {
+                sub: user._id,
+                email,
+                iat: new Date().getTime() / 1000,
+              },
+              JWT_SECRET,
+              { expiresIn: "4h" }
+            );
+            res
+              .status(200)
+              .cookie("token", token, {
+                expires: new Date(Date.now() + 4 * 3600000),
+                httpOnly: true,
+              })
+              .json({
+                message: "Successfully logged in",
+                redirect: "/blogs",
+                ...result,
+              });
           } else {
             // Return 401 if password is incorrect
             res.status(401).json({ message: "Invalid credentials" });
@@ -53,6 +70,7 @@ router.post("/sign-up", (req, res) => {
   const userData = { ...req.body };
   console.log(userData);
 
+  // Hash password using bcrypt
   bcrypt.hash(userData.password, saltRounds, (err, hash) => {
     if (err) {
       console.log(err);
@@ -68,11 +86,32 @@ router.post("/sign-up", (req, res) => {
       .save()
       .then((result) => {
         console.log(result);
-        res.json(req.body);
+
+        // Create a new JWT token and redirect to Blogs
+        const token = jwt.sign(
+          {
+            sub: result._id,
+            email: result.email,
+            iat: new Date().getTime() / 1000,
+          },
+          JWT_SECRET,
+          { expiresIn: "4h" }
+        );
+        res
+          .status(201)
+          .cookie("token", token, {
+            expires: new Date(Date.now() + 4 * 3600000),
+            httpOnly: true,
+          })
+          .json({
+            message: "Successfully logged in",
+            redirect: "/blogs",
+            ...result,
+          });
       })
       .catch((err) => {
         console.log(err);
-        // Return code if email already exists
+        // Check if err is due to duplicate email
         const statusCode = err.code === 11000 ? 409 : 500;
         res
           .status(statusCode)
