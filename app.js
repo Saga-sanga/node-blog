@@ -2,6 +2,9 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const jsonwebtoken = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+
 const User = require("./models/user");
 
 const blogRoutes = require("./routes/blogRoutes");
@@ -51,7 +54,7 @@ app.get("/about", (req, res) => {
   res.render("about", { title: "About" });
 });
 
-// Login and Sign up
+// Login and Sign up Routes
 app.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -64,18 +67,29 @@ app.post("/login", (req, res) => {
   User.findOne({ email })
     .then((user) => {
       console.log(user);
-      if (email === user.email && password === user.password) {
-        // Change state to logged in
-        // Redirect to Blogs
-        const token = jsonwebtoken.sign({ email }, JWT_SECRET, {
-          expiresIn: "4h",
+      if (email === user.email) {
+        bcrypt.compare(password, user.password, (err, result) => {
+          if (err) {
+            // Return 401 if password is incorrect
+            console.log(err);
+            res.status(401).json({ message: "Invalid credentials" });
+          }
+
+          if (result) {
+            // Change state to logged in
+            // Redirect to Blogs
+            const token = jsonwebtoken.sign({ email }, JWT_SECRET, {
+              expiresIn: "4h",
+            });
+            res.status(200).json({ token });
+          }
         });
-        res.status(200).json({ token });
-      } else {
-        res.status(401).json({ message: "Invalid credentials" });
       }
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Internal server error" });
+    });
 });
 
 app.get("/sign-up", (req, res) => {
@@ -83,24 +97,35 @@ app.get("/sign-up", (req, res) => {
 });
 
 app.post("/sign-up", (req, res) => {
-  console.log(req.body);
+  const userData = { ...req.body };
+  console.log(userData);
 
-  const user = new User(req.body);
-
-  user
-    .save()
-    .then((result) => {
-      console.log(result);
-      res.json(req.body);
-    })
-    .catch((err) => {
+  bcrypt.hash(userData.password, saltRounds, (err, hash) => {
+    if (err) {
       console.log(err);
+      res.status(500).json({ message: "Internal server error" });
+    }
 
-      if (err.code === 11000) {
-        res.status(409).json({ message: "Email already exists" });
-      }
-    });
-  // TODO: Check if email is already in use, if not add to database, change state to logged in and redirect.
+    userData.password = hash;
+    console.log(userData);
+
+    const user = new User(userData);
+
+    user
+      .save()
+      .then((result) => {
+        console.log(result);
+        res.json(req.body);
+      })
+      .catch((err) => {
+        console.log(err);
+        // Return code if email already exists
+        const statusCode = err.code === 11000 ? 409 : 500;
+        res.status(statusCode).json({ message: err.message || "Internal server error"});
+      });
+  });
+
+  // TODO: Change state to logged in and redirect.
   // Create new model for users
 });
 
