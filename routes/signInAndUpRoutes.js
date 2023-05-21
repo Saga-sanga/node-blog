@@ -28,12 +28,12 @@ router.post("/login", (req, res) => {
 
           if (result) {
             // Change state to logged in (use Sessions)
-            // Redirect to Blogs
+            // Create a JWT token and Redirect to Blogs
             const token = jwt.sign(
               {
                 sub: user._id,
                 email,
-                iat: new Date().getTime() / 1000,
+                iat: parseInt(new Date().getTime() / 1000),
               },
               JWT_SECRET,
               { expiresIn: "4h" }
@@ -47,7 +47,7 @@ router.post("/login", (req, res) => {
               .json({
                 message: "Successfully logged in",
                 redirect: "/blogs",
-                ...result,
+                firstname: user.firstname
               });
           } else {
             // Return 401 if password is incorrect
@@ -92,7 +92,7 @@ router.post("/sign-up", (req, res) => {
           {
             sub: result._id,
             email: result.email,
-            iat: new Date().getTime() / 1000,
+            iat: parseInt(new Date().getTime() / 1000),
           },
           JWT_SECRET,
           { expiresIn: "4h" }

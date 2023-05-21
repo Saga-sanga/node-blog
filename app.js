@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser")
 
 const blogRoutes = require("./routes/blogRoutes");
 const signInAndUpRoutes = require("./routes/signInAndUpRoutes");
@@ -38,9 +39,11 @@ app.use(morgan("dev"));
 // Encode url data to request body
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.get("/", (req, res) => {
+  console.log(req.cookies);
   res.render("index", { title: "Home" });
 });
 
