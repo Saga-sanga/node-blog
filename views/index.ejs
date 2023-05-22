@@ -4,11 +4,11 @@
   <body>
     <!-- Partials is short for Partial Templates -->
     <%- include("./partials/nav.ejs") %>
-    <% if (user) { %>
-    <p>Hello <%= user.firstname %></p>
-    <% } %>
-
+    
     <main class="index content">
+      <% if (user) { %>
+      <p style="margin-bottom: 2rem;">Hello <%= user.firstname %></p>
+      <% } %>
       <div>
         <h2>Welcome to Your Blogging site</h2>
         <h3>A place where Bloggers meet</h3>
