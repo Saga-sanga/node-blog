@@ -16,8 +16,9 @@ A small blog built using Node.js and the EJS view engine.
 ## Features to Add
 
 1. Add categories and filter for content
-2. Add author and date to blog
+2. Add author and date to blog / Automatically attach author when creating new blog
 3. Improve style of blog
 4. Add login and users (WIP)
 5. Manage login/logut state (Add login/logout, Sign Up button to Nav bar) 
-6. If logged out cannot access delete/edit and create blog
+6. If logged out cannot access delete/edit and create blog (Protected Routes and conditionals)
+7. Handle errors and setup client side validation

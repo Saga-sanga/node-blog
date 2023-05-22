@@ -39,16 +39,16 @@ router.post("/login", (req, res) => {
   User.findOne({ email })
     .then((user) => {
       console.log("Login", user);
+      
       if (email === user.email) {
-        // Hash password using bcrypt
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) {
             console.log(err);
             res.status(401).json({ message: err.message });
           }
 
+          // Create a JWT token, set cookie in response header and Redirect to Blogs
           if (result) {
-            // Create a JWT token, set cookie in response header and Redirect to Blogs
             const token = createToken(user);
 
             res

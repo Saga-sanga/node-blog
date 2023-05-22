@@ -9,7 +9,7 @@
       <div class="content">
         <p><%= blog.body %></p>
       </div>
-      <% if (userState.isLoggedIn) { %>
+      <% if (user) { %>
       <div class="options">
         <a class="edit" href="/blogs/<%= blog._id %>/edit">Edit</a>
         <a class="delete" data-doc="<%= blog._id %>"

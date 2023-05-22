@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const blogRoutes = require("./routes/blogRoutes");
 const authRoutes = require("./routes/authRoutes");
+const { checkUser } = require("./middleware/authMiddleware");
 require("dotenv").config();
 
 const app = express();
@@ -28,12 +29,13 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(morgan("dev"));
 
-// Encode url data to request body
+// Middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
 // Routes
+app.get("*", checkUser);
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" });
 });

@@ -4,6 +4,9 @@
   <body>
     <!-- Partials is short for Partial Templates -->
     <%- include("./partials/nav.ejs") %>
+    <% if (user) { %>
+    <p>Hello <%= user.firstname %></p>
+    <% } %>
 
     <main class="index content">
       <div>
