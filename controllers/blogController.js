@@ -1,11 +1,10 @@
 const Blog = require("../models/blog");
-const userState = require("../app");
 
 const blog_index = (req, res) => {
   Blog.find()
     .sort({ createdAt: -1 })
     .then((result) => {
-      res.render("blogs/index", { title: "All Blogs", blogs: result, userState });
+      res.render("blogs/index", { title: "All Blogs", blogs: result });
     })
     .catch((err) => {
       console.log(err);
@@ -18,7 +17,7 @@ const blog_details = (req, res) => {
   Blog.findById(id)
     .then((result) => {
       console.log(result._id);
-      res.render("blogs/details", { blog: result, title: result.title, userState });
+      res.render("blogs/details", { blog: result, title: result.title });
     })
     .catch((err) => {
       console.log(err);
@@ -56,7 +55,7 @@ const blog_edit_get = (req, res) => {
   const id = req.params.id;
   Blog.findById(id)
     .then((result) => {
-      res.render("blogs/edit", { blog: result, title: "Edit Blog", userState });
+      res.render("blogs/edit", { blog: result, title: "Edit Blog" });
     })
     .catch((err) => console.log(err));
 };

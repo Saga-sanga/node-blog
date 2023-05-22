@@ -19,5 +19,5 @@ A small blog built using Node.js and the EJS view engine.
 2. Add author and date to blog
 3. Improve style of blog
 4. Add login and users (WIP)
-5. Manage login/logut state
+5. Manage login/logut state (Add login/logout, Sign Up button to Nav bar) 
 6. If logged out cannot access delete/edit and create blog

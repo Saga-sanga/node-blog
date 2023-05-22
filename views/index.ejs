@@ -10,42 +10,17 @@
         <h2>Welcome to Your Blogging site</h2>
         <h3>A place where Bloggers meet</h3>
       </div>
-      <div>
-        <form>
-          <label for="email">Email</label>
-          <input id="email" type="text" name="email" required />
-          <label for="password">Password</label>
-          <input id="password" type="password" name="password" required />
-          <button class="button-primary">Sign In</button>
-          <a class="button-secondary" href="/sign-up">Sign Up</a>
-        </form>
-      </div>
+
+      <section>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, rem
+          pariatur culpa perferendis accusantium sequi facere blanditiis
+          delectus expedita labore recusandae porro tempore illo minus a earum
+          doloribus. Iste, debitis.
+        </p>
+      </section>
     </main>
 
     <%- include('./partials/footer') %>
-
-    <script>
-      const login = document.querySelector(".button-primary");
-
-      login.addEventListener("click", (e) => {
-        e.preventDefault();
-        const email = document.querySelector("#email").value;
-        const password = document.querySelector("#password").value;
-
-        fetch("/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            const cookies = document.cookie.split(";");
-            console.log(cookies);
-            // location = data.redirect;
-          })
-          .catch((err) => console.log(err));
-      });
-    </script>
   </body>
 </html>

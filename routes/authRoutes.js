@@ -4,16 +4,30 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 require("dotenv").config();
 
-const userState = require("../app");
-
 const JWT_SECRET = process.env.JWT_SECRET;
-const saltRounds = 10;
 
 const router = express.Router();
+
+// Create token method
+const createToken = (user) => {
+  return jwt.sign(
+    {
+      sub: user._id,
+      email: user.email,
+      iat: parseInt(new Date().getTime() / 1000),
+    },
+    JWT_SECRET,
+    { expiresIn: "4h" }
+  );
+}
 
 router.get("/logout", (req, res) => {
   res.clearCookie("token");
   res.redirect("/");
+})
+
+router.get("/login", (req, res) => {
+  res.render("login", { title: "Login" });
 })
 
 router.post("/login", (req, res) => {
@@ -35,18 +49,7 @@ router.post("/login", (req, res) => {
 
           if (result) {
             // Create a JWT token, set cookie in response header and Redirect to Blogs
-            const token = jwt.sign(
-              {
-                sub: user._id,
-                email,
-                iat: parseInt(new Date().getTime() / 1000),
-              },
-              JWT_SECRET,
-              { expiresIn: "4h" }
-            );
-
-            // Change state to logged in
-            userState.loggedIn = true;
+            const token = createToken(user);
 
             res
               .status(200)
@@ -77,60 +80,36 @@ router.get("/sign-up", (req, res) => {
 });
 
 router.post("/sign-up", (req, res) => {
-  const userData = { ...req.body };
-  console.log(userData);
+  const user = new User(req.body);
 
-  // Hash password using bcrypt
-  bcrypt.hash(userData.password, saltRounds, (err, hash) => {
-    if (err) {
+  user
+    .save()
+    .then((result) => {
+      // Create a new JWT token and redirect to Blogs
+      const token = createToken(result);
+
+      res
+        .status(201)
+        .cookie("token", token, {
+          expires: new Date(Date.now() + 4 * 3600000),
+          httpOnly: true,
+        })
+        .json({
+          message: "Successfully logged in",
+          redirect: "/blogs",
+          ...result,
+        });
+    })
+    .catch((err) => {
       console.log(err);
-      res.status(500).json({ message: "Internal server error" });
-    }
-
-    userData.password = hash;
-    console.log(userData);
-
-    const user = new User(userData);
-
-    user
-      .save()
-      .then((result) => {
-        console.log(result);
-
-        // Create a new JWT token and redirect to Blogs
-        const token = jwt.sign(
-          {
-            sub: result._id,
-            email: result.email,
-            iat: parseInt(new Date().getTime() / 1000),
-          },
-          JWT_SECRET,
-          { expiresIn: "4h" }
-        );
-        res
-          .status(201)
-          .cookie("token", token, {
-            expires: new Date(Date.now() + 4 * 3600000),
-            httpOnly: true,
-          })
-          .json({
-            message: "Successfully logged in",
-            redirect: "/blogs",
-            ...result,
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-        // Check if err is due to duplicate email
-        const statusCode = err.code === 11000 ? 409 : 500;
-        res
-          .status(statusCode)
-          .json({ message: err.message || "Internal server error" });
-      });
-  });
+      // Check if err is due to duplicate email
+      const statusCode = err.code === 11000 ? 409 : 500;
+      res
+        .status(statusCode)
+        .json({ message: err.message || "Internal server error" });
+    });
 
   // TODO: Change state to logged in and redirect.
-  // Create new model for users
 });
 
 module.exports = router;

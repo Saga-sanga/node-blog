@@ -6,7 +6,7 @@
   <ul class="links">
     <li><a href="/blogs">Blogs</a></li>
     <li><a href="/about">About</a></li>
-    <% if () {%>
+    <% if (userState.isLoggedIn) {%>
     <li><a href="/blogs/create">New Blog</a></li>
     <% } %>
   </ul>
