@@ -4,10 +4,17 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 require("dotenv").config();
 
+const userState = require("../app");
+
 const JWT_SECRET = process.env.JWT_SECRET;
 const saltRounds = 10;
 
 const router = express.Router();
+
+router.get("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/");
+})
 
 router.post("/login", (req, res) => {
   const email = req.body.email;
@@ -27,8 +34,7 @@ router.post("/login", (req, res) => {
           }
 
           if (result) {
-            // Change state to logged in (use Sessions)
-            // Create a JWT token and Redirect to Blogs
+            // Create a JWT token, set cookie in response header and Redirect to Blogs
             const token = jwt.sign(
               {
                 sub: user._id,
@@ -38,6 +44,10 @@ router.post("/login", (req, res) => {
               JWT_SECRET,
               { expiresIn: "4h" }
             );
+
+            // Change state to logged in
+            userState.loggedIn = true;
+
             res
               .status(200)
               .cookie("token", token, {

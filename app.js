@@ -1,7 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
-const cookieParser = require("cookie-parser")
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 
 const blogRoutes = require("./routes/blogRoutes");
 const signInAndUpRoutes = require("./routes/signInAndUpRoutes");
@@ -12,6 +13,8 @@ const mongoPassword = process.env.MONGO_PASSWORD;
 const app = express();
 
 const port = process.env.PORT || 3000;
+
+let userState = { isLoggedIn: false };
 
 // Mongodb connection string
 const mongoURI = `mongodb+srv://saga_sanga:${mongoPassword}@node-blog.whqmtry.mongodb.net/Sanga-blog-tuts?retryWrites=true&w=majority`;
@@ -41,15 +44,34 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+// JWT verification & authorization middleware
+// TODO: Add logic
+app.use((req, res, next) => {
+  // TODO: Handle HTTPonly cookie
+  const token = req.cookies.token;
+  console.log("Token: ", token);
+
+  // if (token) {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      console.log("JWT ERR: ", err);
+      // res.json(err);
+    }
+    console.log("Verify: ", decoded);
+  });
+  next();
+  // } else {
+  //   res.redirect("/");
+  // }
+});
+
 // Routes
 app.get("/", (req, res) => {
-  console.log(req.cookies);
-  res.render("index", { title: "Home" });
+  res.render("index", { title: "Home",  userState });
 });
 
 app.get("/about", (req, res) => {
-  console.log(req.params, req.query);
-  res.render("about", { title: "About" });
+  res.render("about", { title: "About", userState });
 });
 
 // Login and Sign up Routes
@@ -62,4 +84,4 @@ app.use((req, res) => {
   res.status(404).render("404", { title: "404" });
 });
 
-
+module.exports = userState;
