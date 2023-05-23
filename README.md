@@ -24,3 +24,5 @@ A small blog built using Node.js and the EJS view engine.
 - [x] If logged out cannot access delete/edit and create blog (Protected Routes and conditionals)
 - [ ] Handle errors and setup client side validation
 - [ ] Make Users able to edit only their blogs
+- [ ] Add my blogs page where users can see a list of their blogs
+- [ ] Add blogs feed page where users can see all the blogs
