@@ -5,7 +5,6 @@ require("dotenv").config();
 // JWT verification & authorization middleware
 const requireAuth = (req, res, next) => {
   const token = req.cookies.token;
-  console.log("Token: ", token);
 
   // Check if token is valid otherwise redirect to login
   if (token) {
@@ -13,8 +12,9 @@ const requireAuth = (req, res, next) => {
       if (err) {
         console.log("JWT ERR: ", err);
         res.json(err).redirect("/login");
-      } else {
-        console.log("Verify: ", decoded);
+      } 
+
+      if (decoded) {
         next();
       }
     });

@@ -2,10 +2,10 @@
 <html lang="en">
   <%- include("../partials/head.ejs") %>
   <body>
-
     <%- include("../partials/nav.ejs") %>
 
     <div class="create-blog content">
+      <div class="blog-post error"></div>
       <form action="/blogs" method="POST">
         <label for="title">Blog title:</label>
         <input type="text" id="title" name="title" required />
@@ -13,9 +13,40 @@
         <input type="text" id="snippet" name="snippet" required />
         <label for="body">Blog body:</label>
         <textarea id="body" cols="30" rows="10" name="body" required></textarea>
+        <input type="hidden" name="author" value="<%= user.id %>" />
         <button class="button-primary">Submit</button>
       </form>
     </div>
     <%- include('../partials/footer') %>
   </body>
+
+  <script>
+    const form = document.querySelector("form");
+    const blogError = document.querySelector(".blog-post.error");
+    const button = document.querySelector(".button-primary");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const data = new FormData(form);
+      const plainFormData = Object.fromEntries(data.entries());
+
+      fetch("/blogs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(plainFormData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          location.assign(data.redirect);
+        })
+        .catch((error) => {
+          console.log(error);
+          blogError.textContent = error.message;
+        });
+    });
+  </script>
 </html>

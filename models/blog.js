@@ -5,15 +5,15 @@ const blogSchema = new Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, "Title is required"],
     },
     snippet: {
       type: String,
-      required: true,
+      required: [true, "Snippet is required"],
     },
     body: {
       type: String,
-      required: true,
+      required: [true, "Body is required"],
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,

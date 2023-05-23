@@ -9,8 +9,7 @@ const validatePassword = {
       minLength: 6,
       minLowercase: 1,
       minUppercase: 1,
-      minNumbers: 1,
-      minSymbols: 1,
+      minNumbers: 1
     });
   },
   message: "Password is not strong enough",
@@ -41,7 +40,7 @@ const userSchema = new Schema(
   },
   {
     toJSON: {
-      // Delete password from obj upon each request
+      // Delete password from obj before sending as response
       transform: function (doc, ret) {
         ret.id = ret._id;
         delete ret._id;

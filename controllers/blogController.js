@@ -30,13 +30,17 @@ const blog_create_get = (req, res) => {
 
 const blog_create_post = (req, res) => {
   const blog = new Blog(req.body);
+  console.log(req.body, blog);
 
   blog
     .save()
     .then((result) => {
-      res.redirect("/blogs");
+      res.json({ redirect: "/blogs" });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ error: err.message });
+    });
 };
 
 const blog_delete = (req, res) => {
@@ -47,7 +51,10 @@ const blog_delete = (req, res) => {
     .then((result) => {
       res.json({ redirect: "/blogs" });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ error: err.message });
+    });
 };
 
 const blog_edit_get = (req, res) => {
@@ -56,7 +63,10 @@ const blog_edit_get = (req, res) => {
     .then((result) => {
       res.render("blogs/edit", { blog: result, title: "Edit Blog" });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ error: err.message });
+    });
 };
 
 const blog_edit_put = (req, res) => {
@@ -71,7 +81,10 @@ const blog_edit_put = (req, res) => {
     .then((result) => {
       res.json({ redirect: `/blogs/${id}` });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ error: err.message });
+    });
 };
 
 module.exports = {

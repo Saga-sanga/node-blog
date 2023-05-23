@@ -60,7 +60,7 @@ footer {
   color: #777;
   text-align: center;
   margin: 80px auto 20px;
-  position: absolute;
+  position: relative;
   bottom: 0;
   width: 100%;
 }
@@ -180,7 +180,7 @@ textarea {
 
 .auth-form {
   padding: 2rem;
-  max-width: 30rem;
+  max-width: 24rem;
   margin-inline: auto;
   display: flex;
   flex-direction: column;
@@ -192,7 +192,23 @@ textarea {
   width: 100%;
 }
 
+.auth-form label {
+  margin-top: 1rem;
+  font-size: 12px;
+}
+
+.auth-form > h2 {
+  margin-bottom: 0.5rem;
+  align-self: center;
+}
+
 .buttons {
   margin-top: 1rem;
   display: flex;
+}
+
+.password-tips {
+  margin-top: 1rem;
+  margin-left: 20px;
+  font-size: 14px;
 }
