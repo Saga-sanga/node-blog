@@ -167,3 +167,32 @@ textarea {
   background: white;
   border: 1px solid crimson;
 }
+
+/* Login and Signup styles */
+.signup {
+  text-transform: capitalize;
+}
+
+.error {
+  color: white;
+  background-color: rgb(212, 60, 85);
+}
+
+.auth-form {
+  padding: 2rem;
+  max-width: 30rem;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.auth-form input {
+  width: 100%;
+}
+
+.buttons {
+  margin-top: 1rem;
+  display: flex;
+}

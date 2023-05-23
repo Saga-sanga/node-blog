@@ -8,8 +8,8 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const router = express.Router();
 
-// Create token method
-const createToken = (user) => {
+// Create token
+function createToken(user) {
   return jwt.sign(
     {
       sub: user._id,
@@ -24,11 +24,11 @@ const createToken = (user) => {
 router.get("/logout", (req, res) => {
   res.clearCookie("token");
   res.redirect("/");
-})
+});
 
 router.get("/login", (req, res) => {
   res.render("login", { title: "Login" });
-})
+});
 
 router.post("/login", (req, res) => {
   const email = req.body.email;
@@ -38,12 +38,11 @@ router.post("/login", (req, res) => {
   // User validation
   User.findOne({ email })
     .then((user) => {
-
       if (email === user.email) {
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) {
             console.log(err);
-            res.status(401).json({ message: err.message });
+            res.status(401).json({ error: err.message });
           }
 
           // Create a JWT token, set cookie in response header and Redirect to Blogs
@@ -59,18 +58,18 @@ router.post("/login", (req, res) => {
               .json({
                 message: "Successfully logged in",
                 redirect: "/blogs",
-                firstname: user.firstname
+                firstname: user.firstname,
               });
           } else {
             // Return 401 if password is incorrect
-            res.status(401).json({ message: "Invalid credentials" });
+            res.status(401).json({ error: "Password is incorrect" });
           }
         });
       }
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ message: err.message });
+      res.status(500).json({ error: "Email not found" });
     });
 });
 
@@ -100,12 +99,24 @@ router.post("/sign-up", (req, res) => {
         });
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err.errors.email.message);
+      console.log(err.errors.password.message);
+      let message = { error: err._message };
+      if (err.errors.email.message) {
+        message.email = err.errors.email.message;
+      }
+
+      if (err.errors.password.message) {
+        message.password = err.errors.password.message;
+      }
       // Check if err is due to duplicate email
       const statusCode = err.code === 11000 ? 409 : 500;
+      console.log(err._message);
       res
         .status(statusCode)
-        .json({ message: err.message || "Internal server error" });
+        .json({
+          error: statusCode === 409 ? "Email already exists" : message,
+        });
     });
 
   // TODO: Change state to logged in and redirect.

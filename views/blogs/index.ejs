@@ -2,27 +2,29 @@
 <html lang="en">
   <%- include("../partials/head.ejs") %>
   <body>
-    
     <!-- Partials is short for Partial Templates -->
     <%- include("../partials/nav.ejs") %>
 
     <div class="blogs content">
+      <% if (user) { %>
+      <h2 style="margin-bottom: 2rem">Hello <%= user.firstname %>!</h2>
+      <% } %>
+
       <h2>All Blogs</h2>
 
-      <% if (blogs.length) { %> 
+      <% if (blogs.length) { %>
         <% blogs.forEach(blog => { %>
 
-        <a class="single" href="/blogs/<%= blog._id %>">
-          <h3 class="title"><%= blog.title %></h3>
-          <p class="snippet"><%= blog.snippet %></p>
-        </a>
+      <a class="single" href="/blogs/<%= blog._id %>">
+        <h3 class="title"><%= blog.title %></h3>
+        <p class="snippet"><%= blog.snippet %></p>
+      </a>
 
         <% }); %> 
       <% } %> 
       <% if (!blogs.length) {%>
-        <p>No blogs to display...</p>
+      <p>No blogs to display...</p>
       <% } %>
-
     </div>
     <%- include('../partials/footer') %>
   </body>
