@@ -99,14 +99,14 @@ router.post("/sign-up", (req, res) => {
         });
     })
     .catch((err) => {
-      console.log(err.errors.email.message);
-      console.log(err.errors.password.message);
+      console.log(err);
       let message = { error: err._message };
-      if (err.errors.email.message) {
+
+      if (err.errors.email) {
         message.email = err.errors.email.message;
       }
 
-      if (err.errors.password.message) {
+      if (err.errors.password) {
         message.password = err.errors.password.message;
       }
       // Check if err is due to duplicate email

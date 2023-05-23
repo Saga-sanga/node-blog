@@ -40,7 +40,7 @@ const userSchema = new Schema(
     },
   },
   {
-    toObject: {
+    toJSON: {
       // Delete password from obj upon each request
       transform: function (doc, ret) {
         ret.id = ret._id;
@@ -52,7 +52,7 @@ const userSchema = new Schema(
 );
 
 // Pre method called on every save operation
-userSchema.pre("save", async (next) => {
+userSchema.pre("save", async function(next) {
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });

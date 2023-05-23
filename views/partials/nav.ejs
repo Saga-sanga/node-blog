@@ -1,11 +1,12 @@
 <nav>
   <div class="site-title">
     <% if(user) { %>
-    <a href="/"><h1>Sanga Blog</h1></a>
+      <a href="/blogs"><h1><%= user.firstname %>'s Blog</h1></a>
+      <p>A Small Blogging Site</p>
     <% } else { %>
-      <a href="/blogs"><h1>Sanga Blog</h1></a>
+      <a href="/"><h1>Your Blog</h1></a>
+      <p>A Small Blogging Site</p>
     <% } %>
-    <p>A Sanga Blog Site</p>
   </div>
   <ul class="links">
     <li><a href="/blogs">Blogs</a></li>
