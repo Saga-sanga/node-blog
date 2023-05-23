@@ -28,6 +28,8 @@
     form.addEventListener("submit", (event) => {
       event.preventDefault();
 
+      // Use FormData to create POST body
+      // Note: FormData upon console logged will only return empty data
       const data = new FormData(form);
       const plainFormData = Object.fromEntries(data.entries());
 

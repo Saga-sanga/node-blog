@@ -17,6 +17,17 @@ const validatePassword = {
 
 const userSchema = new Schema(
   {
+    // Better Model for name
+    // name: {
+    //   first: {
+    //     type: String,
+    //     required: true,
+    //   },
+    //   last: {
+    //     type: String,
+    //     requiredPaths: true,
+    //   }
+    // },
     firstname: {
       type: String,
       required: true,
@@ -55,13 +66,6 @@ userSchema.pre("save", async function(next) {
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
-
-// userSchema.set('toObject', {
-//   transform: function(doc, ret) {
-//     delete ret.password;
-//     return ret;
-//   }
-// })
 
 const User = mongoose.model("user", userSchema);
 

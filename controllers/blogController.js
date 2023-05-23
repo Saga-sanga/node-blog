@@ -2,8 +2,10 @@ const Blog = require("../models/blog");
 
 const blog_index = (req, res) => {
   Blog.find()
+    .populate("author")
     .sort({ createdAt: -1 })
     .then((result) => {
+      console.log(result);
       res.render("blogs/index", { title: "All Blogs", blogs: result });
     })
     .catch((err) => {
@@ -15,6 +17,7 @@ const blog_details = (req, res) => {
   const id = req.params.id;
 
   Blog.findById(id)
+    .populate("author")
     .then((result) => {
       res.render("blogs/details", { blog: result, title: result.title });
     })
