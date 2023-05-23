@@ -8,6 +8,7 @@ A small blog built using Node.js and the EJS view engine.
 - [Express](https://expressjs.com/)
 - [JWT](https://jwt.io/introduction)
 - [Mongoose](https://mongoosejs.com/docs/index.html)
+- [Code Example](https://github.com/iamshaunjp/node-express-jwt-auth/tree/lesson-18)
 
 ### Articles I found useful
 
