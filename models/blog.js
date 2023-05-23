@@ -17,13 +17,13 @@ const blogSchema = new Schema(
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
-    }
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
 
 // The name we pass to the model is important because it gets pluralised and looks for the exact name in the MongoDB Collections
-const Blog = mongoose.model("Blog", blogSchema);
+const Blog = mongoose.model("blog", blogSchema);
 
 module.exports = Blog;

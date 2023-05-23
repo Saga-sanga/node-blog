@@ -16,7 +16,6 @@ const blog_details = (req, res) => {
 
   Blog.findById(id)
     .then((result) => {
-      console.log(result._id);
       res.render("blogs/details", { blog: result, title: result.title });
     })
     .catch((err) => {

@@ -38,8 +38,7 @@ router.post("/login", (req, res) => {
   // User validation
   User.findOne({ email })
     .then((user) => {
-      console.log("Login", user);
-      
+
       if (email === user.email) {
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) {

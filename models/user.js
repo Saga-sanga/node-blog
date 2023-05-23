@@ -5,20 +5,28 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   firstname: {
     type: String,
-    required: true
+    required: true,
   },
   lastname: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
+  },
+}, {
+  toObject: {
+    transform: function(doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.password;
+    }
   }
 });
 
@@ -28,6 +36,13 @@ userSchema.pre("save", async (next) => {
   next();
 });
 
-const User = mongoose.model("User", userSchema);
+// userSchema.set('toObject', {
+//   transform: function(doc, ret) {
+//     delete ret.password;
+//     return ret;
+//   }
+// })
+
+const User = mongoose.model("user", userSchema);
 
 module.exports = User;
