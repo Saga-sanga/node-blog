@@ -1,16 +1,31 @@
 const Blog = require("../models/blog");
+const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const blog_index = (req, res) => {
-  Blog.find()
-    .populate("author")
-    .sort({ createdAt: -1 })
-    .then((result) => {
-      console.log(result);
-      res.render("blogs/index", { title: "All Blogs", blogs: result });
-    })
-    .catch((err) => {
-      console.log(err);
+  const token = req.cookies.token;
+
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        console.log(err);
+      }
+      if (decoded) {
+        Blog.find({ author: new mongoose.Types.ObjectId(decoded.sub) })
+          .populate("author")
+          .sort({ createdAt: -1 })
+          .then((result) => {
+            res.render("blogs/index", { title: "All Blogs", blogs: result });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     });
+  } else {
+    res.redirect("/login");
+  }
 };
 
 const blog_details = (req, res) => {
