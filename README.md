@@ -28,4 +28,5 @@ A small blog built using Node.js and the EJS view engine.
 - [x] Add blogs feed page where users can see all the blogs
 - [ ] Add an unique route for each user so they can share their blog
 - [ ] Add OAuth in the login and signup
+- [ ] Add search functionality
 - [ ] Add comments and likes for blogs

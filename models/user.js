@@ -48,22 +48,20 @@ const userSchema = new Schema(
       required: true,
       validate: [validatePassword],
     },
-  },
-  {
-    toJSON: {
-      // Delete password from obj before sending as response
-      transform: function (doc, ret) {
-        ret.id = ret._id;
-        delete ret._id;
-        delete ret.password;
-      },
-    },
   }
 );
 
 // Pre method called on every save operation
 userSchema.pre("save", async function(next) {
   this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
+
+// Fires after every find operation
+userSchema.post(/find$/, function(doc, next) {
+  doc.forEach((doc) => {
+    doc.password = undefined;
+  });
   next();
 });
 
