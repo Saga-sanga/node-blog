@@ -14,7 +14,7 @@
       <div class="content">
         <p><%= blog.body %></p>
       </div>
-      <% if (user) { %>
+      <% if (user?._id.toString() === blog.author?._id.toString()) { %>
       <div class="options">
         <a class="edit" href="/blogs/<%= blog._id %>/edit">Edit</a>
         <a class="delete" data-doc="<%= blog._id %>"

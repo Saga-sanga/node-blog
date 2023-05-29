@@ -35,6 +35,7 @@ const checkUser = (req, res, next) => {
         next();
       } else {
         const user = await User.findById(decoded.sub);
+        console.log("USER: ", user);
         res.locals.user = user;
         next();
       }

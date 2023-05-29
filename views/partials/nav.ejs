@@ -1,7 +1,7 @@
 <nav>
   <div class="site-title">
     <% if(user) { %>
-      <a href="/blogs"><h1><%= user.firstname %>'s Blog</h1></a>
+      <a href="/"><h1><%= user.firstname %>'s Blog</h1></a>
       <p>A Small Blogging Site</p>
     <% } else { %>
       <a href="/"><h1>Your Blog</h1></a>
@@ -9,10 +9,11 @@
     <% } %>
   </div>
   <ul class="links">
-    <li><a href="/blogs">My Blogs</a></li>
+    <li><a href="/">Home</a></li>
     <li><a href="/about">About</a></li>
     <% if (user) {%>
-    <li><a href="/blogs/create">Write</a></li>
+    <li><a href="/blogs">My Blogs</a></li>
+    <li><a href="/blogs/create">Create</a></li>
     <li><a href="/logout">Logout</a></li>
     <% } else { %>
       <li><a href="/login">Login</a></li>

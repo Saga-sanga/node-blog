@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const blogRoutes = require("./routes/blogRoutes");
 const authRoutes = require("./routes/authRoutes");
+const Blog = require("./models/blog");
 const { checkUser } = require("./middleware/authMiddleware");
 require("dotenv").config();
 
@@ -37,8 +38,15 @@ app.use(cookieParser());
 // Routes
 app.get("*", checkUser);
 app.get("/", (req, res) => {
-  res.render("index", { title: "Home" });
+  Blog.find()
+    .populate('author')
+    .sort({ createdAt: -1 })
+    .then(result => {
+      res.render("index", { title: "Home", blogs: result });
+    })
+    .catch(err => console.log(err));
 });
+
 
 app.get("/about", (req, res) => {
   res.render("about", { title: "About" });

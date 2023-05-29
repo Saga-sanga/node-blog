@@ -16,7 +16,7 @@ const blog_index = (req, res) => {
           .populate("author")
           .sort({ createdAt: -1 })
           .then((result) => {
-            res.render("blogs/index", { title: "All Blogs", blogs: result });
+            res.render("blogs/index", { title: "My Blogs", blogs: result });
           })
           .catch((err) => {
             console.log(err);

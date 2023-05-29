@@ -11,13 +11,25 @@
         <h3>A place where Bloggers meet</h3>
       </div>
 
-      <section>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, rem
-          pariatur culpa perferendis accusantium sequi facere blanditiis
-          delectus expedita labore recusandae porro tempore illo minus a earum
-          doloribus. Iste, debitis.
-        </p>
+      <section class="blogs content">
+        <h2>All Blogs</h2>
+
+        <% if (blogs.length) { %>
+          <% blogs.forEach(blog => { %>
+
+        <a class="single" href="/blogs/<%= blog._id %>">
+          <h3 class="title"><%= blog.title %></h3>
+          <p class="snippet"><%= blog.snippet %></p>
+          <% if (blog.author) { %>
+          <p class="author">By: <%= blog.author.firstname %> <%= blog.author.lastname %></p>
+          <% } %>
+        </a>
+
+          <% }); %> 
+        <% } %> 
+        <% if (!blogs.length) {%>
+        <p>No blogs to display...</p>
+        <% } %>
       </section>
     </main>
 
