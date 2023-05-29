@@ -103,11 +103,11 @@ router.post("/sign-up", (req, res) => {
       let message = { error: err._message };
 
       if (err.errors.email) {
-        message.email = err.errors.email.message;
+        message.email = err.errors.email;
       }
 
       if (err.errors.password) {
-        message.password = err.errors.password.message;
+        message.password = err.errors.password;
       }
       // Check if err is due to duplicate email
       const statusCode = err.code === 11000 ? 409 : 500;

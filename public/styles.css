@@ -179,8 +179,7 @@ textarea {
 }
 
 .error {
-  color: white;
-  background-color: rgb(212, 60, 85);
+  color: rgb(212, 60, 85);
 }
 
 .auth-form {
@@ -216,4 +215,14 @@ textarea {
   margin-top: 1rem;
   margin-left: 20px;
   font-size: 14px;
+}
+
+/* General classes */
+.center-text {
+  text-align: center;
+}
+
+.styled-link {
+  color: rgb(41, 80, 255);
+  text-decoration: underline;
 }

@@ -14,19 +14,19 @@
           <input id="firstname" type="text" name="firstname" required />
           <label for="lastname">last Name</label>
           <input id="lastname" type="text" name="lastname" required />
-          <div class="email error"></div>
           <label for="email">Email</label>
           <input id="email" type="text" name="email" required />
-          <div class="password error"></div>
+          <div class="email error"></div>
           <label for="password">Password</label>
           <input id="password" type="password" name="password" required />
           <label for="confirm_password">Confirm Password</label>
           <input
-            id="confirm_password"
-            type="password"
-            name="confirm_password"
-            required
+          id="confirm_password"
+          type="password"
+          name="confirm_password"
+          required
           />
+          <div class="password error"></div>
           <div class="password-tips">
             <strong>Must Contain:</strong>
             <ul>
@@ -61,6 +61,11 @@
         const confirm_password =
           document.querySelector("#confirm_password").value;
 
+        // Clean up text
+        signupError.textContent = "";
+        emailError.textContent = "";
+        passwordError.textContent = "";
+
         if (password === confirm_password) {
           fetch("/sign-up", {
             method: "POST",
@@ -74,11 +79,19 @@
                 signupError.textContent = data.error.error + "!";
 
                 if (data.error.email) {
-                  emailError.textContent = data.error.email;
+                  emailError.textContent = data.error.email.message;
+                }
+
+                if (data.error.email.kind === "required") {
+                  emailError.textContent = "Email is required"
                 }
 
                 if (data.error.password) {
-                  passwordError.textContent = data.error.password;
+                  passwordError.textContent = data.error.password.message;
+                }
+                
+                if (data.error.password.kind === "required") {
+                  passwordError.textContent = "Password is required";
                 }
               }
 
