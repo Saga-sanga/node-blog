@@ -2,6 +2,10 @@
 
 A small blog built using Node.js and the EJS view engine. This project was created as an exercise to learn Node.js and various backend technologies such as JWT for authentication and authorization.
 
+### Screenshot
+
+![Blog Screenshot](./public/Screenshot-blog.png)
+
 ## Things I learnt
 
 - How to create an Express server using Node.js
@@ -31,7 +35,7 @@ A small blog built using Node.js and the EJS view engine. This project was creat
 
 - [https://vegibit.com/mongoose-relationships-tutorial/](https://vegibit.com/mongoose-relationships-tutorial/)
 
-## Features to Add
+## Possible Extension Feature
 
 - [ ] Add categories and filter for content
 - [x] Add author and date to blog / Automatically attach author when creating new blog
