@@ -51,3 +51,4 @@ A small blog built using Node.js and the EJS view engine. This project was creat
 - [ ] Add OAuth in the login and signup
 - [ ] Add search functionality
 - [ ] Add comments and likes for blogs
+- [ ] Add image to blog

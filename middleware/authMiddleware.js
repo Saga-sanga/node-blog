@@ -34,7 +34,10 @@ const checkUser = (req, res, next) => {
         res.locals.user = null;
         next();
       } else {
-        const user = await User.findById(decoded.sub);
+        const user = await User.findById(decoded.sub).transform(res => {
+          res.password = undefined;
+          return res;
+        });
         console.log("USER: ", user);
         res.locals.user = user;
         next();
