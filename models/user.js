@@ -17,17 +17,6 @@ const validatePassword = {
 
 const userSchema = new Schema(
   {
-    // Better Model for name
-    // name: {
-    //   first: {
-    //     type: String,
-    //     required: true,
-    //   },
-    //   last: {
-    //     type: String,
-    //     requiredPaths: true,
-    //   }
-    // },
     firstname: {
       type: String,
       required: true,

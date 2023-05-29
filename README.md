@@ -1,6 +1,19 @@
 # Node.js Blog
 
-A small blog built using Node.js and the EJS view engine.
+A small blog built using Node.js and the EJS view engine. This project was created as an exercise to learn Node.js and various backend technologies such as JWT for authentication and authorization.
+
+## Things I learnt
+
+- How to create an Express server using Node.js
+- Server Side Rendering(SSR) using EJS
+- Creating a CRUD App using Mongoose and MongoDB
+- Creating Schemas and Models in Mongoose
+- Using third party Middlewares
+- Impementing user authentication and authorization with JWT
+- Using MVC design pattern
+- Using cookies to send a token to the browser
+- Using bcrypt to encrypt data i.e. passwords
+- Using a validator to perform server side validation of user data
 
 ## Resources
 
@@ -9,6 +22,10 @@ A small blog built using Node.js and the EJS view engine.
 - [JWT](https://jwt.io/introduction)
 - [Mongoose](https://mongoosejs.com/docs/index.html)
 - [Code Example](https://github.com/iamshaunjp/node-express-jwt-auth/tree/lesson-18)
+
+### Node Libraries I used worth saving
+
+- [Validator](https://www.npmjs.com/package/validator)
 
 ### Articles I found useful
 
