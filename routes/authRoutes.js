@@ -1,6 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { OAuth2Client } = require("google-auth-library");
 const User = require("../models/user");
 require("dotenv").config();
 
@@ -28,6 +29,21 @@ router.get("/logout", (req, res) => {
 
 router.get("/login", (req, res) => {
   res.render("login", { title: "Login" });
+});
+
+router.post("/login/auth/google", (req, res) => {
+  console.log("Hit google", req.body);
+  // Checking Double-submit-cookie
+  if (!req.cookies.g_csrf_token) {
+    res.json("No CSRF token in Cookie.");
+  }
+  if (!req.body.g_csrf_token) {
+    res.json("No CSRF token in post body.");
+  }
+  if (req.cookies.g_csrf_token !== req.body.g_csrf_token) {
+    console.log("Failed to verify double submit cookie.");
+  }
+  res.json({ message: "Hello from the other side!" });
 });
 
 router.post("/login", (req, res) => {
@@ -101,7 +117,9 @@ router.post("/sign-up", (req, res) => {
     .catch((err) => {
       console.log(err);
       const statusCode = err.code === 11000 ? 409 : 500;
-      let message = { error: statusCode === 409 ? "Email already exists" : err._message };
+      let message = {
+        error: statusCode === 409 ? "Email already exists" : err._message,
+      };
 
       if (err.errors?.email) {
         message.email = err.errors.email;
@@ -111,12 +129,10 @@ router.post("/sign-up", (req, res) => {
         message.password = err.errors.password;
       }
       // Check if err is due to duplicate email
-      console.log(message)
-      res
-        .status(statusCode)
-        .json({
-          error: message,
-        });
+      console.log(message);
+      res.status(statusCode).json({
+        error: message,
+      });
     });
 
   // TODO: Change state to logged in and redirect.
