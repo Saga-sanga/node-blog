@@ -34,6 +34,7 @@ A small blog built using Node.js and the EJS view engine. This project was creat
 ### Articles I found useful
 
 - [https://vegibit.com/mongoose-relationships-tutorial/](https://vegibit.com/mongoose-relationships-tutorial/)
+- [Verify the Google ID token on your server side](https://developers.google.com/identity/gsi/web/guides/verify-google-id-token)
 
 ## Possible Extension Feature
 
@@ -47,10 +48,11 @@ A small blog built using Node.js and the EJS view engine. This project was creat
 - [x] Make Users able to edit only their blogs
 - [x] Add my blogs page where users can see a list of their blogs
 - [x] Add blogs feed page where users can see all the blogs
-- [ ] Add an unique route for each user so they can share their blog
-- [ ] Add OAuth in the login and signup
+- [ ] Make the Blog a micro blogging site like Twitter
+- [x] Add OAuth in the login and signup
 - [ ] Add search functionality
-- [ ] Add comments and likes for blogs
-- [ ] Add text formatting for blog content
-- [ ] Add image to blog
+- [ ] Add comments and likes for posts
+- [ ] Add option to attach image to posts
 - [ ] Add infinite Scroll
+- [ ] Add Threads
+- [ ] Implement a way to reset password/recover account
