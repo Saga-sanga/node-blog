@@ -10,28 +10,9 @@
         <h2>Welcome to Your Blogging site</h2>
         <h3>A place where Bloggers meet</h3>
       </div>
-      <div>
+      <div style="display: flex; flex-direction: column;">
         <form class="auth-form">
           <h2>Login</h2>
-          <div
-            id="g_id_onload"
-            data-client_id="383464635916-plu4djvsfgiie1h8srqq7caolc1b7pal.apps.googleusercontent.com"
-            data-context="signin"
-            data-ux_mode="redirect"
-            data-login_uri="http://localhost:3000/login/auth/google"
-            data-auto_prompt="false"
-          ></div>
-
-          <div
-            class="g_id_signin"
-            data-type="standard"
-            data-shape="rectangular"
-            data-theme="outline"
-            data-text="signin_with"
-            data-size="large"
-            data-logo_alignment="left"
-          ></div>
-          <div>Or</div>
           <div class="login error"></div>
           <label for="email">Email</label>
           <input id="email" type="text" name="email" required />
@@ -42,6 +23,25 @@
             <a class="button-secondary" href="/sign-up">Sign Up</a>
           </div>
         </form>
+        <div style="align-self: center;">
+          <div
+            id="g_id_onload"
+            data-client_id="383464635916-plu4djvsfgiie1h8srqq7caolc1b7pal.apps.googleusercontent.com"
+            data-context="signin"
+            data-ux_mode="redirect"
+            data-login_uri="http://localhost:3000/login/auth/google"
+            data-auto_prompt="false"
+          ></div>
+          <div
+            class="g_id_signin"
+            data-type="standard"
+            data-shape="rectangular"
+            data-theme="outline"
+            data-text="signin_with"
+            data-size="large"
+            data-logo_alignment="left"
+          ></div>
+        </div>
       </div>
     </main>
 
@@ -77,13 +77,6 @@
             console.log(err);
           });
       });
-
-      async function handleGoogleSignIn(data) {
-        const res = await fetch("/login/auth/google");
-        const data = await res.json();
-
-        console.log("Hello!!", res);
-      }
     </script>
   </body>
 </html>
