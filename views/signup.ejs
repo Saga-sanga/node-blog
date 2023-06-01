@@ -9,6 +9,9 @@
       <div style="display: flex; flex-direction: column">
         <form class="auth-form">
           <h2>Sign Up</h2>
+          <p>
+            Have an account? <a class="styled-link" href="/login">Log in</a>
+          </p>
           <div class="signup error"></div>
           <label for="firstname">First Name</label>
           <input id="firstname" type="text" name="firstname" required />
@@ -28,7 +31,7 @@
           />
           <div class="password error"></div>
           <div class="password-tips">
-            <strong>Must Contain:</strong>
+            <strong>Password must contain:</strong>
             <ul>
               <li>Minimum 6 characters</li>
               <li>A lowercase character</li>
@@ -38,7 +41,6 @@
           </div>
           <div class="buttons">
             <button class="button-primary">Sign Up</button>
-            <a class="button-secondary" href="/login">Sign In</a>
           </div>
         </form>
         <div style="align-self: center">
@@ -59,7 +61,7 @@
             data-theme="outline"
             data-text="signup_with"
             data-size="large"
-            data-logo_alignment="left"
+            data-logo_alignment="center"
           ></div>
         </div>
       </div>

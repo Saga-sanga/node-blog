@@ -193,7 +193,8 @@ textarea {
 }
 
 .auth-form input {
-  width: 100%;
+  width: 250px;
+  height: 26px;
 }
 
 .auth-form label {
