@@ -21,9 +21,9 @@ function createToken(user) {
 }
 
 // Verifying Google-Auth-Token
-async function verify() {
+async function verify(token) {
   const ticket = await client.verifyIdToken({
-    idToken: req.body.credential,
+    idToken: token,
     audience: process.env.GOOGLE_CLIENT_ID,
   });
 
@@ -33,6 +33,14 @@ async function verify() {
   console.log("UserID: ", userid);
 
   return payload;
+}
+
+// Handle Error
+function handleError(err, res) {
+  console.log(err);
+  res.status(401).json({
+    error: err.message,
+  });
 }
 
 const route_logout = (req, res) => {
@@ -99,8 +107,37 @@ const route_oauth_google = async (req, res) => {
     res.json("Failed to verify double submit cookie.");
   }
 
-  const payload = await verify().catch(console.error);
-  res.json({ message: `Hello ${payload.given_name}` });
+  // TODO: Add login/signup logic
+  // Check if user exists in database if not create new entry and change state to login
+  const payload = await verify(req.body.credential).catch(console.error);
+
+  const userInfo = {
+    email: payload.email,
+    firstname: payload.given_name,
+    lastname: payload.family_name,
+  }
+
+  let user = await User.findOne({ email: userInfo.email });
+  if (!user) {
+    const newUser = new User(userInfo);
+    user = await newUser.save().catch(err => handleError(err, res));
+    console.log(user);
+  }
+
+  const token = createToken(user);
+  res
+    .status(201)
+    .cookie("token", token, {
+      expires: new Date(Date.now() + 4 * 3600000),
+      httpOnly: true,
+    })
+    .redirect("/blogs");
+    // .json({
+    //   message: "Successfully logged in",
+    //   redirect: "/blogs",
+    //   ...user,
+    // });
+  // res.json({ message: `Hello ${payload.given_name ?? "World!"}` });
 };
 
 const route_signup_get = (req, res) => {
@@ -108,7 +145,11 @@ const route_signup_get = (req, res) => {
 };
 
 const route_signup_post = (req, res) => {
-  const user = new User(req.body);
+  const user = new User(req.dody);
+
+  if (!user.password) {
+    res.status(400).json({ error: "Password is required" });
+  }
 
   user
     .save()

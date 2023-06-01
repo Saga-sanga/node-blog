@@ -34,7 +34,6 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
       validate: [validatePassword],
     },
   }
@@ -42,7 +41,9 @@ const userSchema = new Schema(
 
 // Pre method called on every save operation
 userSchema.pre("save", async function(next) {
-  this.password = await bcrypt.hash(this.password, 10);
+  if (this.password) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
   next();
 });
 
