@@ -21,10 +21,10 @@
           <input id="password" type="password" name="password" required />
           <label for="confirm_password">Confirm Password</label>
           <input
-          id="confirm_password"
-          type="password"
-          name="confirm_password"
-          required
+            id="confirm_password"
+            type="password"
+            name="confirm_password"
+            required
           />
           <div class="password error"></div>
           <div class="password-tips">
@@ -41,11 +41,31 @@
             <a class="button-secondary" href="/login">Sign In</a>
           </div>
         </form>
+        <div style="align-self: center">
+          <div
+            id="g_id_onload"
+            data-client_id="383464635916-plu4djvsfgiie1h8srqq7caolc1b7pal.apps.googleusercontent.com"
+            data-context="signup"
+            data-ux_mode="redirect"
+            data-login_uri="http://localhost:3000/login/auth/google"
+            data-auto_prompt="false"
+          ></div>
+          <div
+            class="g_id_signin"
+            data-type="standard"
+            data-shape="rectangular"
+            data-theme="outline"
+            data-text="signup_with"
+            data-size="large"
+            data-logo_alignment="left"
+          ></div>
+        </div>
       </div>
     </main>
 
     <%- include('./partials/footer') %>
 
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
       const signup = document.querySelector(".button-primary");
       const signupError = document.querySelector(".signup.error");
@@ -83,13 +103,13 @@
                 }
 
                 if (data.error.email.kind === "required") {
-                  emailError.textContent = "Email is required"
+                  emailError.textContent = "Email is required";
                 }
 
                 if (data.error.password) {
                   passwordError.textContent = data.error.password.message;
                 }
-                
+
                 if (data.error.password.kind === "required") {
                   passwordError.textContent = "Password is required";
                 }
@@ -107,4 +127,3 @@
     </script>
   </body>
 </html>
-
