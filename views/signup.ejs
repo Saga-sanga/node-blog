@@ -6,7 +6,7 @@
     <%- include("./partials/nav.ejs") %>
 
     <main class="index content">
-      <div>
+      <div style="display: flex; flex-direction: column">
         <form class="auth-form">
           <h2>Sign Up</h2>
           <div class="signup error"></div>
@@ -42,14 +42,16 @@
           </div>
         </form>
         <div style="align-self: center">
+          <div class="divider">OR</div>
           <div
             id="g_id_onload"
             data-client_id="383464635916-plu4djvsfgiie1h8srqq7caolc1b7pal.apps.googleusercontent.com"
             data-context="signup"
             data-ux_mode="redirect"
-            data-login_uri="http://localhost:3000/login/auth/google"
+            data-login_uri="https://localhost:3000/sign-up/auth/google"
             data-auto_prompt="false"
           ></div>
+
           <div
             class="g_id_signin"
             data-type="standard"
