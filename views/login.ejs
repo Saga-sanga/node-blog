@@ -10,21 +10,15 @@
         <h2>Welcome to Your Blogging site</h2>
         <h3>A place where Bloggers meet</h3>
       </div>
-      <div style="display: flex; flex-direction: column;">
-        <form class="auth-form">
+      <div class="form-container">
+        <div class="form-header" style="margin-top: 2.5rem;">
           <h2>Log in to your account</h2>
-          <p>Don't have an account? <a class="styled-link" href="/sign-up">Sign Up</a></p>
-          <div class="login error"></div>
-          <label for="email">Email</label>
-          <input id="email" type="text" name="email" required />
-          <label for="password">Password</label>
-          <input id="password" type="password" name="password" required />
-          <div class="buttons">
-            <button class="button-primary">Sign In</button>
-          </div>
-        </form>
-        <div style="align-self: center;">
-          <div class="divider">OR</div>
+          <p>
+            Don't have an account?
+            <a class="styled-link" href="/sign-up">Sign Up</a>
+          </p>
+        </div>
+        <div style="align-self: center">
           <div
             id="g_id_onload"
             data-client_id="383464635916-plu4djvsfgiie1h8srqq7caolc1b7pal.apps.googleusercontent.com"
@@ -43,7 +37,18 @@
             data-logo_alignment="left"
             data-width="250px"
           ></div>
+          <div class="divider">OR</div>
         </div>
+        <form class="auth-form">
+          <div class="login error"></div>
+          <label for="email">Email</label>
+          <input id="email" type="text" name="email" required />
+          <label for="password">Password</label>
+          <input id="password" type="password" name="password" required />
+          <div class="buttons">
+            <button class="button-primary">Sign In</button>
+          </div>
+        </form>
       </div>
     </main>
 
