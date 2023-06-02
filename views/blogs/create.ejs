@@ -31,14 +31,14 @@
       // Use FormData to create POST body
       // Note: FormData upon console logged will only return empty data
       const data = new FormData(form);
-      const plainFormData = Object.fromEntries(data.entries());
+      const objFormData = Object.fromEntries(data.entries());
 
       fetch("/blogs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(plainFormData),
+        body: JSON.stringify(objFormData),
       })
         .then((response) => response.json())
         .then((data) => {

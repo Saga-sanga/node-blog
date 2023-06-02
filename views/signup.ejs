@@ -73,30 +73,39 @@
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
+      const form = document.querySelector("form");
       const signup = document.querySelector(".button-primary");
       const signupError = document.querySelector(".signup.error");
       const emailError = document.querySelector(".email.error");
       const passwordError = document.querySelector(".password.error");
 
+      const firstname = document.querySelector("#firstname");
+      const lastname = document.querySelector("#lastname");
+      const email = document.querySelector("#email");
+      const password = document.querySelector("#password");
+      const confirm_password = document.querySelector("#confirm_password");
+
       signup.addEventListener("click", (e) => {
         e.preventDefault();
-        const firstname = document.querySelector("#firstname").value;
-        const lastname = document.querySelector("#lastname").value;
-        const email = document.querySelector("#email").value;
-        const password = document.querySelector("#password").value;
-        const confirm_password =
-          document.querySelector("#confirm_password").value;
+        const data = new FormData(form);
+        const objFormData = Object.fromEntries(data.entries());
+        console.log(objFormData);
 
-        // Clean up text
+        // Clean up error text
         signupError.textContent = "";
         emailError.textContent = "";
         passwordError.textContent = "";
 
-        if (password === confirm_password) {
+        // Reset error display
+        email.classList.remove("input-error");
+        password.classList.remove("input-error");
+        confirm_password.classList.remove("input-error");
+
+        if (password.value === confirm_password.value) {
           fetch("/sign-up", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ firstname, lastname, email, password }),
+            body: JSON.stringify(objFormData),
           })
             .then((response) => response.json())
             .then((data) => {
@@ -105,18 +114,24 @@
                 signupError.textContent = data.error.error + "!";
 
                 if (data.error.email) {
+                  email.classList.add("input-error");
                   emailError.textContent = data.error.email.message;
                 }
 
                 if (data.error.email.kind === "required") {
+                  email.classList.add("input-error");
                   emailError.textContent = "Email is required";
                 }
 
                 if (data.error.password) {
+                  password.classList.add("input-error");
+                  confirm_password.classList.add("input-error");
                   passwordError.textContent = data.error.password.message;
                 }
 
                 if (data.error.password.kind === "required") {
+                  password.classList.add("input-error");
+                  confirm_password.classList.add("input-error");
                   passwordError.textContent = "Password is required";
                 }
               }
@@ -127,6 +142,8 @@
             })
             .catch((err) => console.log(err));
         } else {
+          password.classList.add("input-error");
+          confirm_password.classList.add("input-error");
           signupError.textContent = "Passwords don't match";
         }
       });

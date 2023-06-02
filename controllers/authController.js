@@ -138,50 +138,53 @@ const route_signup_get = (req, res) => {
 };
 
 const route_signup_post = (req, res) => {
-  const user = new User(req.dody);
+  const {email, firstname, lastname, password} = req.body;
+  const user = new User({email, firstname, lastname, password});
 
-  if (!user.password) {
-    res.status(400).json({ error: "Password is required" });
+  if (!password) {
+    res.status(400).json({error: { error: "Password is required" }});
   }
 
-  user
-    .save()
-    .then((result) => {
-      // Create a new JWT token and redirect to Blogs
-      const token = createToken(result);
-
-      res
-        .status(201)
-        .cookie("token", token, {
-          expires: new Date(Date.now() + 4 * 3600000),
-          httpOnly: true,
-        })
-        .json({
-          message: "Successfully logged in",
-          redirect: "/blogs",
-          ...result,
+  if (password && email) {
+    user
+      .save()
+      .then((result) => {
+        // Create a new JWT token and redirect to Blogs
+        const token = createToken(result);
+  
+        res
+          .status(201)
+          .cookie("token", token, {
+            expires: new Date(Date.now() + 4 * 3600000),
+            httpOnly: true,
+          })
+          .json({
+            message: "Successfully logged in",
+            redirect: "/blogs",
+            ...result,
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        const statusCode = err.code === 11000 ? 409 : 500;
+        let message = {
+          error: statusCode === 409 ? "Email already exists" : err._message,
+        };
+  
+        if (err.errors?.email) {
+          message.email = err.errors.email;
+        }
+  
+        if (err.errors?.password) {
+          message.password = err.errors.password;
+        }
+        // Check if err is due to duplicate email
+        console.log(message);
+        res.status(statusCode).json({
+          error: message,
         });
-    })
-    .catch((err) => {
-      console.log(err);
-      const statusCode = err.code === 11000 ? 409 : 500;
-      let message = {
-        error: statusCode === 409 ? "Email already exists" : err._message,
-      };
-
-      if (err.errors?.email) {
-        message.email = err.errors.email;
-      }
-
-      if (err.errors?.password) {
-        message.password = err.errors.password;
-      }
-      // Check if err is due to duplicate email
-      console.log(message);
-      res.status(statusCode).json({
-        error: message,
       });
-    });
+  }
 };
 
 module.exports = {

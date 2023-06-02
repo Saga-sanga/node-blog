@@ -26,8 +26,6 @@ const requireAuth = (req, res, next) => {
 // Check if Current user is valid
 const checkUser = (req, res, next) => {
   const token = req.cookies.token;
-
-  console.log(req.connection.remoteAddress);
   
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {

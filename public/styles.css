@@ -197,6 +197,10 @@ textarea {
   color: rgb(212, 60, 85);
 }
 
+.input-error {
+  border: solid 1px rgb(212, 60, 85);
+}
+
 .auth-form {
   padding: 2rem;
   padding-top: 0.25rem;
