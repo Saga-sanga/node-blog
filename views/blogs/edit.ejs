@@ -51,20 +51,24 @@
 
       updateButton.addEventListener("click", (e) => {
         e.preventDefault();
-        const title = document.querySelector("#title").value;
-        const snippet = document.querySelector("#snippet").value;
-        const body = document.querySelector("textarea").value;
+        // const title = document.querySelector("#title").value;
+        // const snippet = document.querySelector("#snippet").value;
+        // const body = document.querySelector("textarea").value;
 
-        const blogUpdate = {
-          title,
-          snippet,
-          body,
-        };
+        // const blogUpdate = {
+        //   title,
+        //   snippet,
+        //   body,
+        // };
+
+        const data = new FormData(form);
+        const plainFormData = Object.fromEntries(data.entries());
+        console.log(plainFormData);
 
         fetch(query, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(blogUpdate),
+          body: JSON.stringify(plainFormData),
         })
           .then((response) => response.json())
           .then((data) => (location = data.redirect))

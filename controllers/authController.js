@@ -43,6 +43,7 @@ function handleError(err, res) {
   });
 }
 
+// Auth Routes
 const route_logout = (req, res) => {
   res.clearCookie("token");
   res.redirect("/");
@@ -107,7 +108,6 @@ const route_oauth_google = async (req, res) => {
     res.json("Failed to verify double submit cookie.");
   }
 
-  // TODO: Add login/signup logic
   // Check if user exists in database if not create new entry and change state to login
   const payload = await verify(req.body.credential).catch(console.error);
 
@@ -121,7 +121,6 @@ const route_oauth_google = async (req, res) => {
   if (!user) {
     const newUser = new User(userInfo);
     user = await newUser.save().catch(err => handleError(err, res));
-    console.log(user);
   }
 
   const token = createToken(user);
@@ -132,12 +131,6 @@ const route_oauth_google = async (req, res) => {
       httpOnly: true,
     })
     .redirect("/blogs");
-    // .json({
-    //   message: "Successfully logged in",
-    //   redirect: "/blogs",
-    //   ...user,
-    // });
-  // res.json({ message: `Hello ${payload.given_name ?? "World!"}` });
 };
 
 const route_signup_get = (req, res) => {
