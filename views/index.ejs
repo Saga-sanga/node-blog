@@ -4,6 +4,14 @@
   <body>
     <!-- Partials is short for Partial Templates -->
     <%- include("./partials/nav.ejs") %>
+    <% if (!user) { %>
+      <div id="g_id_onload"
+      data-client_id="383464635916-plu4djvsfgiie1h8srqq7caolc1b7pal.apps.googleusercontent.com"
+      data-context="signin"
+      data-login_uri="/login/auth/google"
+      data-itp_support="true">
+      </div>
+    <% } %>
     
     <main class="index content">
       <div class="center-text">
@@ -34,5 +42,7 @@
     </main>
 
     <%- include('./partials/footer') %>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
   </body>
 </html>
