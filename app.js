@@ -11,7 +11,7 @@ require("dotenv").config();
 const app = express();
 
 const mongoPassword = process.env.MONGO_PASSWORD;
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 // Mongodb connection string
 const mongoURI = `mongodb+srv://saga_sanga:${mongoPassword}@node-blog.whqmtry.mongodb.net/Sanga-blog-tuts?retryWrites=true&w=majority`;

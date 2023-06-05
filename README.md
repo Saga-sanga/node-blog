@@ -40,7 +40,7 @@ A small blog built using Node.js and the EJS view engine. This project was creat
 
 - [ ] Add categories and filter for content
 - [x] Add author and date to blog / Automatically attach author when creating new blog
-- [ ] Improve style of blog
+- [ ] Improve styling of blog
 - [x] Add login and users
 - [x] Manage login/logut state (Add login/logout, Sign Up button to Nav bar) 
 - [x] If logged out cannot access delete/edit and create blog (Protected Routes and conditionals)
@@ -56,3 +56,4 @@ A small blog built using Node.js and the EJS view engine. This project was creat
 - [ ] Add infinite Scroll
 - [ ] Add Threads
 - [ ] Implement a way to reset password/recover account
+- [ ] Chat functionality using Websockets (Socket.io)
